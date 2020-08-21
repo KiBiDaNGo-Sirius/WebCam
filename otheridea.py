@@ -16,16 +16,33 @@ control.title("control")
 control.geometry('400x400')
 control.grid()
 
-maru = cv2.imread('maru.jpg',0)
-batu = cv2.imread('batu.jpg',0)
-toumei = cv2.imread('toumei.jpg',0)
-actionImg = toumei
+#Picture setting
+maru = Image.open('maru.png')
+maru = ImageTk.PhotoImage(maru)
+batu = Image.open('batu.png')
+batu = ImageTk.PhotoImage(batu)
+toumei = Image.open('toumei.png')
+toumei = ImageTk.PhotoImage(toumei)
+
+#path setting
+path = 'text.txt'
 
 #Main window set up and function --------------------------------------------
 
 #video canvas
 Vcanvas=tk.Canvas(window, width=600, height=450, bg="green")
 Vcanvas.place(x=0, y=0)
+
+
+def getAction():
+    with open(path) as f:
+        s = f.read()
+        if s == "toumei":
+            Vcanvas.create_image(0, 0, image=toumei, anchor=tk.NW)
+        elif s == "maru":
+            Vcanvas.create_image(0, 0, image=maru, anchor=tk.NW)
+        elif s == "batu":
+            Vcanvas.create_image(0, 0, image=batu, anchor=tk.NW)
 
 #get webCam capture
 def capStart():
@@ -40,9 +57,6 @@ def capStart():
         print("error-----")
         print(sys.exec_info()[0])
         print(sys.exec_info()[1])
-        '''終了時の処理はここでは省略します。
-        c.release()
-        cv2.destroyAllWindows()'''
 
 #updata
 def update():
@@ -53,24 +67,45 @@ def update():
     if ret:
         img=ImageTk.PhotoImage(Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)))
         Vcanvas.create_image(0,0,image=img)
+        getAction()
     else:
         print("u-Fail")
     window.after(1,update)
 
 #control window set up and function--------------------------------------------
 
-def btn_click():
-    actionImg = maru
-    Vcanvas.create_image(0,0,image=actionImg)
-    messagebox.showinfo("メッセージ", "ボタンがクリックされました")
 
-btn = tk.Button(control, text='ボタン', command = btn_click)
-btn.place(x=130, y=80) #ボタンを配置する位置の設定
 
+def MaruB_click():
+    with open(path, mode='w') as f:
+        f.write("maru")
+    messagebox.showinfo("メッセージ", "oボタンがクリックされました")
+
+def BatuB_click():
+    with open(path, mode='w') as f:
+        f.write("batu")
+    messagebox.showinfo("メッセージ", "xボタンがクリックされました")
+
+def ToumeiB_click():
+    with open(path, mode='w') as f:
+        f.write("toumei")
+    messagebox.showinfo("メッセージ", "clearボタンがクリックされました")
+
+
+MaruB = tk.Button(control, text='O', command = MaruB_click)
+MaruB.place(x=130, y=50) #ボタンを配置する位置の設定
+BatuB = tk.Button(control, text='X', command = BatuB_click)
+BatuB.place(x=130, y=80) #ボタンを配置する位置の設定
+ToumeiB = tk.Button(control, text='clear', command = ToumeiB_click)
+ToumeiB.place(x=130, y=110) #ボタンを配置する位置の設定
 
 capStart()
 update()
+
+# 画像を表示するためのキャンバスの作成（黒で表示）
+# キャンバスに画像を表示する。第一引数と第二引数は、x, yの座標
+#Vcanvas.create_image(0, 0, image=actionImg, anchor=tk.NW)
 window.mainloop()
 
 #参考にさせていただいたページ　https://shizenkarasuzon.hatenablog.com/entry/2018/12/31/064646　https://teratail.com/questions/187773
-#今後、許可をとる予定です
+#今後、許可をとる予定ですk
