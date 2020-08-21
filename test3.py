@@ -16,18 +16,17 @@ control.title("control")
 control.geometry('400x400')
 control.grid()
 
+#Picture setting
 maru = Image.open('maru.png')
 maru = ImageTk.PhotoImage(maru)
-print(maru)
 batu = Image.open('batu.png')
 batu = ImageTk.PhotoImage(batu)
-print(batu)
 toumei = Image.open('toumei.png')
 toumei = ImageTk.PhotoImage(toumei)
-print(toumei)
-actionImg = toumei
 
+#path setting
 path = 'text.txt'
+
 #Main window set up and function --------------------------------------------
 
 #video canvas
@@ -58,9 +57,6 @@ def capStart():
         print("error-----")
         print(sys.exec_info()[0])
         print(sys.exec_info()[1])
-        '''終了時の処理はここでは省略します。
-        c.release()
-        cv2.destroyAllWindows()'''
 
 #updata
 def update():
@@ -80,12 +76,13 @@ def update():
 
 
 
-def btn_click():
+def MaruB_click():
     with open(path, mode='w') as f:
         f.write("maru")
     messagebox.showinfo("メッセージ", "ボタンがクリックされました")
 
-btn = tk.Button(control, text='ボタン', command = btn_click)
+MaruB = tk.Button(control, text='O', command = MaruB_click)
+
 btn.place(x=130, y=80) #ボタンを配置する位置の設定
 
 
