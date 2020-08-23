@@ -37,12 +37,16 @@ Vcanvas.place(x=0, y=0)
 def getAction():
     with open(path) as f:
         s = f.read()
+        print(s)
         if s == "toumei":
             Vcanvas.create_image(0, 0, image=toumei, anchor=tk.NW)
         elif s == "maru":
             Vcanvas.create_image(0, 0, image=maru, anchor=tk.NW)
         elif s == "batu":
             Vcanvas.create_image(0, 0, image=batu, anchor=tk.NW)
+        else:
+            Vcanvas.create_text(100, 100, text=s, font=("Meiryo", 18, "bold"))
+        
 
 #get webCam capture
 def capStart():
@@ -79,32 +83,45 @@ def update():
 def MaruB_click():
     with open(path, mode='w') as f:
         f.write("maru")
-    messagebox.showinfo("メッセージ", "oボタンがクリックされました")
 
 def BatuB_click():
     with open(path, mode='w') as f:
         f.write("batu")
-    messagebox.showinfo("メッセージ", "xボタンがクリックされました")
 
 def ToumeiB_click():
     with open(path, mode='w') as f:
         f.write("toumei")
-    messagebox.showinfo("メッセージ", "clearボタンがクリックされました")
 
+def Textfun():
+    s = text.get()
+    with open(path, mode='w') as f:
+        f.write(s)
+    
 
+MaruL = tk.Label(text="O")
+MaruL.place(x=100, y=50)
 MaruB = tk.Button(control, text='O', command = MaruB_click)
 MaruB.place(x=130, y=50) #ボタンを配置する位置の設定
+
+BatuL = tk.Label(text="X")
+BatuL.place(x=100, y=80)
 BatuB = tk.Button(control, text='X', command = BatuB_click)
 BatuB.place(x=130, y=80) #ボタンを配置する位置の設定
+
+ToumeiL = tk.Label(text="Clear")
+ToumeiL.place(x=100, y=110)
 ToumeiB = tk.Button(control, text='clear', command = ToumeiB_click)
 ToumeiB.place(x=130, y=110) #ボタンを配置する位置の設定
 
+textL = tk.Label(text="TEXT")
+textL.place(x=100, y=140)
+textB = tk.Button(control, text='text', command = Textfun)
+textB.place(x=130, y=140) #ボタンを配置する位置の設定
+text = tk.Entry(width=20)
+text.place(x=130, y=170)
+
 capStart()
 update()
-
-# 画像を表示するためのキャンバスの作成（黒で表示）
-# キャンバスに画像を表示する。第一引数と第二引数は、x, yの座標
-#Vcanvas.create_image(0, 0, image=actionImg, anchor=tk.NW)
 window.mainloop()
 
 #参考にさせていただいたページ　https://shizenkarasuzon.hatenablog.com/entry/2018/12/31/064646　https://teratail.com/questions/187773
