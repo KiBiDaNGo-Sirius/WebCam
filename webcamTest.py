@@ -37,7 +37,7 @@ def capStart():
 def update():#update
     global img
     ret, frame =Capture.read()
-    windowsize = (1200, 900)
+    windowsize = (600, 450)
     frame = cv2.resize(frame, windowsize)
     if ret:
         img=ImageTk.PhotoImage(Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)))
